@@ -31,7 +31,7 @@ router.post('/Login', async (req, res) => {
     let { username, password } = req.body;
     try {
         const user = await Users.findBy({ username }).first()
-        if (user && bcrypt.compareSync(password, user.password)) {
+        if (user && bcryptjs.compareSync(password, user.password)) {
            
             const token = generateToken(user)
             res.status(200).json({ message: `Welcome ${user.username}`, token })
@@ -55,3 +55,5 @@ function generateToken(user) {
 
     return jwt.sign(payload, secrets.jwtSecret, options)
 }
+
+module.exports = router;
