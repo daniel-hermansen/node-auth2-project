@@ -1,16 +1,17 @@
 const jwt = require('jsonwebtoken')
-const secret = require('../config/secrets.js')
+// const secret = require('../config/secrets.js')
 
 module.exports = (req, res, next) => {
+    const {authorization} = req.headers;
     try {
-        const token = req.headers.authorization.split(" ")[1];
-
-        if (token) {
-            jwt.verify(token, secret.jwtSecret, (error, decodedToken) => {
+    
+        if (authorization) {
+            const secret = process.env.JWT_SECRET || 'shhhh';
+            jwt.verify(authorization, secret, (error, decodedToken) => {
                 if (error) {
                     res.status(401).json({ message: 'No Access' })
                 } else {
-                    req.decodedJwt = decodedToken
+                    req.token = decodedToken
                     next();
                 }
             })

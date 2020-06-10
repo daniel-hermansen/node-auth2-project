@@ -4,10 +4,10 @@ const router = express.Router()
 
 const Users = require("./user-model.js");
 const restricted = require("../auth/restricted-middleware.js");
-const checkRole = require('../auth/check-role-middleware.js');
+// const checkRole = require('../auth/check-role-middleware.js');
 
 
-router.get('/', restricted, checkRole(1), async (req, res) => {
+router.get('/', restricted, async (req, res) => {
     try {
         const found = await Users.find()
         if (found) {
